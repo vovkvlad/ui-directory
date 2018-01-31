@@ -6,11 +6,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PATHS = {
     DIST: path.resolve(__dirname, 'dist'),
     SRC: path.resolve(__dirname, 'src'),
-    JS: path.resolve(__dirname, 'src/js')
 };
 
 module.exports = {
-    entry: path.join(PATHS.JS, 'index.js'),
+    entry: path.join(PATHS.SRC, 'index.js'),
 
     output: {
         path: PATHS.DIST,

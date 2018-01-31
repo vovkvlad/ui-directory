@@ -1,3 +1,7 @@
-import { join } from 'lodash';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 
-console.log(join(['a', 'b']));
+import App from './App';
+
+
+render(<App />, document.getElementById('app'));
