@@ -14,7 +14,7 @@ export default class SideNav extends Component {
               return (
                 <li
                   key={index}
-                  className={styles.sideNavLink}
+                  className={styles.sideNavLinkElement}
                 >
                   {child}
                 </li>

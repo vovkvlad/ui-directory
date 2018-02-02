@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Route,
-  Link
+  NavLink
 } from 'react-router-dom'
 
 import SideNav from './SideNav';
@@ -17,14 +17,30 @@ export default class AppLayout extends Component {
     return (
       <div className={styles.container}>
         <SideNav>
-          <Link to="/">Pure React app</Link>
-          <Link to="/redux">Redux app</Link>
-          <Link to="/mobx">Mobx app</Link>
+          <NavLink
+            exact={true}
+            to="/"
+            activeClassName={styles.activeSideNavLink}
+            className={styles.sideNavLink}>
+            Pure react app
+          </NavLink>
+          <NavLink
+            to="/redux"
+            activeClassName={styles.activeSideNavLink}
+            className={styles.sideNavLink}>
+            Redux app
+          </NavLink>
+          <NavLink
+            to="/mobx"
+            activeClassName={styles.activeSideNavLink}
+            className={styles.sideNavLink}>
+            Mobx app
+          </NavLink>
         </SideNav>
         <MainContainer>
           <Route exact path="/" component={reactApp}/>
-          <Route exact path="/redux" component={reduxApp}/>
-          <Route exact path="/mobx" component={mobxApp}/>
+          <Route path="/redux" component={reduxApp}/>
+          <Route path="/mobx" component={mobxApp}/>
         </MainContainer>
       </div>
     );
