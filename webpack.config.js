@@ -60,6 +60,18 @@ module.exports = {
             loader: 'sass-loader'
           }
         ]
+      },
+      {
+        test: /\.(jpe?g|png|ttf|eot|gif|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: 'assets/[name].[hash:8].[ext]'
+            }
+          }
+        ]
       }
     ]
   },
