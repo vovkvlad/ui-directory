@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FileItem from 'components/FileItem';
+import FileItem from 'components/File';
 
 const reactApp = () => {
   return (

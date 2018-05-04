@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class FileItem extends Component {
+export default class File extends Component {
   
   state = {
     isLoading: true
-  }
+  };
   
   static propTypes = {
     extension: PropTypes.string,
