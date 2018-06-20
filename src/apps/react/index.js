@@ -1,11 +1,11 @@
 import React from 'react';
 
-import FileItem from 'components/File';
-
+import { DIR } from './testDirectoryStructure';
+import DirectoryContainer from 'components/DirectoryContainer';
 const reactApp = () => {
   return (
     <div>
-      <FileItem name='TestFile' extension=".txt"/>
+      <DirectoryContainer content={DIR}/>
     </div>
   );
 };

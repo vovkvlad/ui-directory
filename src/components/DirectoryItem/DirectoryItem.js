@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class DirectoryComponent extends Component {
+export default class DirectoryItem extends Component {
   static propTypes = {
     childFiles: PropTypes.array,
-    name: PropTypes.string.required,
+    name: PropTypes.string,
   };
   
   static defaultProps = {
@@ -23,22 +23,14 @@ export default class DirectoryComponent extends Component {
     });
   }
   
-  renderDirectoryContents() {
-    const { name, childFiles } = this.props;
+  render() {
     const { isOpen } = this.state;
     
-    if (isOpen) {
-      return <span>Not ready yet</span>
-    } else {
-      return <span>{name}</span>
-    }
-  }
-  
-  render() {
     return (
       <div onClick={this.toggleOpen}>
-        <span className='far fa-folder' />
-        {this.renderDirectoryContents()}
+        {isOpen ? <span className='fas fa-caret-down'/> : <span className='fas fa-caret-right'/>}
+        <span className='far fa-folder'/>
+        {isOpen ? <span>Not ready yet</span> : null}
       </div>
     );
   }

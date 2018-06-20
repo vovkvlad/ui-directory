@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import getFileIcon from './getFileIcon';
 
-export default class Icon extends PureComponent {
+export default class FileIcon extends PureComponent {
   static propTypes = {
-    extension: PropTypes.string.required,
+    extension: PropTypes.string,
   };
   
   
