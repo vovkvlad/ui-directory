@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import FileIcon from 'components/FileIcon';
+import styles from './File.scss';
 
 export default class File extends Component {
   
@@ -18,9 +19,9 @@ export default class File extends Component {
   render() {
     const { name, extension } = this.props;
     return (
-      <div>
+      <div className={styles.container}>
         <FileIcon extension={extension} />
-        <span>{`${name}.${extension}`}</span>
+        <span className={styles.name}>{`${name}.${extension}`}</span>
       </div>
     );
   }

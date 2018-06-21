@@ -28,7 +28,7 @@ export default class MyComponent extends Component {
   renderFolder(folderObject) {
     const { name, children } = folderObject;
     
-    return <DirectoryItem name={name} content={children} key={name} />;
+    return <DirectoryItem name={name} content={children} key={name}/>;
   };
   
   render() {
@@ -36,7 +36,14 @@ export default class MyComponent extends Component {
     
     return (
       <div className={styles.container}>
-        {content.map(item => get(item, 'children') ? this.renderFolder(item) : this.renderFile(item))}
+        {content.map(item => get(item, 'children') ? (
+            <div className={styles[ "directory-item" ]}>
+              {this.renderFolder(item)}
+            </div>
+          ) : (
+            <div className={styles[ "directory-item" ]}>{this.renderFile(item)}</div>
+          )
+        )}
       </div>
     );
   }
