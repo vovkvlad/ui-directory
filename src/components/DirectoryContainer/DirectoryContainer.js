@@ -11,7 +11,22 @@ export default class MyComponent extends Component {
     content: PropTypes.array
   };
   
-  renderFile(fileObject) {
+  state = {
+    selectedItem: null,
+  };
+  
+  selectItem = (event) => {
+    event.stopPropagation();
+    const { selectedItem: previousSelectedItem } = this.state;
+    const { currentTarget } = event;
+    let key = currentTarget ? currentTarget.getAttribute('data-key') : null;
+    
+    this.setState({ selectedItem: key === previousSelectedItem ? null : key });
+    
+    debugger;
+  };
+  
+  renderFile(fileObject, isSelected) {
     // we are not proccess files like file.txt.js for now
     const { name, extension, ...meta } = fileObject;
     return (
@@ -19,31 +34,49 @@ export default class MyComponent extends Component {
         name={name}
         extension={extension}
         meta={meta}
-        key={`${name}.${extension}`}
+        selected={isSelected}
       />
     );
   }
   
   
-  renderFolder(folderObject) {
+  renderFolder(folderObject, isSelected) {
     const { name, children } = folderObject;
     
-    return <DirectoryItem name={name} content={children} key={name}/>;
+    return (
+      <DirectoryItem
+        name={name}
+        childFiles={children}
+        selected={isSelected}
+      />
+    );
   };
   
+  
   render() {
+    const { selectedItem } = this.state;
     const { content } = this.props;
     
     return (
       <div className={styles.container}>
-        {content.map(item => get(item, 'children') ? (
-            <div className={styles[ "directory-item" ]}>
-              {this.renderFolder(item)}
-            </div>
-          ) : (
-            <div className={styles[ "directory-item" ]}>{this.renderFile(item)}</div>
-          )
-        )}
+        {
+          content.map((item, index) => {
+            const key = JSON.stringify(item);
+            const isSelected = key === selectedItem;
+            
+            return (
+              <div
+                className={styles.directoryItem}
+                key={key}
+                data-key={key}
+                onClick={this.selectItem}
+              >
+                {get(item, 'children') ? this.renderFolder(item, isSelected) : this.renderFile(item, isSelected)}
+              </div>
+            )
+            
+          })
+        }
       </div>
     );
   }

@@ -17,6 +17,19 @@ export const DIR = [
     children: [
       {name: 'File9', extension: 'js'},
       {name: 'File10', extension: 'xls'},
+      {
+        name: 'Folder3',
+        children: [
+          {name: 'File11', extension: 'js'},
+          {
+            name: 'Folder4',
+            children: [
+              {name: 'File12', extension: 'js'},
+            ]
+          },
+          {name: 'File12', extension: 'doc'},
+        ]
+      },
     ]
   },
 ];

@@ -1,3 +1,9 @@
+@import '../../variables';
+
+.container {
+  cursor: pointer;
+}
+
 .caret {
   margin-right: 5px;
 }
@@ -7,3 +13,7 @@
 }
 
 .folderName {}
+
+.selected {
+  color: $orange
+}

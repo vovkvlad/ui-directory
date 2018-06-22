@@ -1,7 +1,14 @@
+@import '../../variables';
+
 .container {
   margin-left: 13px;
+  cursor: pointer;
 }
 
 .name {
   margin-left: 5px;
+}
+
+.selected {
+  color: $orange;
 }
