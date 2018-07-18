@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { DIR } from './testDirectoryStructure';
-import DirectoryContainer from 'components/DirectoryContainer';
+import AppController from './AppController';
 
 const reactApp = () => {
-  return <DirectoryContainer content={DIR}/>;
+  return <AppController />;
 };
 
 export default reactApp;

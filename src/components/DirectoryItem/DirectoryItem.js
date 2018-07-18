@@ -10,6 +10,8 @@ export default class DirectoryItem extends Component {
     childFiles: PropTypes.array,
     name: PropTypes.string,
     selected: PropTypes.bool,
+    selectedItem: PropTypes.string,
+    onItemSelect: PropTypes.func,
   };
   
   static defaultProps = {
@@ -31,7 +33,7 @@ export default class DirectoryItem extends Component {
   
   render() {
     const { isOpen } = this.state;
-    const { name, childFiles, selected } = this.props;
+    const { name, childFiles, selected, onItemSelect, selectedItem } = this.props;
     
     return (
       <Fragment>
@@ -42,7 +44,12 @@ export default class DirectoryItem extends Component {
           <span className={`far fa-folder ${styles.folder}`}/>
           <span className={styles.folderName}>{name}</span>
         </div>
-        {isOpen ? <DirectoryContainer content={childFiles}/> : null}
+        {isOpen ?
+          <DirectoryContainer
+            content={childFiles}
+            onItemSelect={onItemSelect}
+            selectedItem={selectedItem}/>
+          : null}
       </Fragment>
     );
   }

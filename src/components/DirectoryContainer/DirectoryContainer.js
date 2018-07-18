@@ -8,22 +8,19 @@ import styles from './DirectoryContainer.scss';
 
 export default class MyComponent extends Component {
   static propTypes = {
-    content: PropTypes.array
-  };
-  
-  state = {
-    selectedItem: null,
+    content: PropTypes.array,
+    onItemSelect: PropTypes.func,
+    selectedItem: PropTypes.string,
   };
   
   selectItem = (event) => {
     event.stopPropagation();
-    const { selectedItem: previousSelectedItem } = this.state;
+    
+    const { onItemSelect } = this.props;
     const { currentTarget } = event;
     let key = currentTarget ? currentTarget.getAttribute('data-key') : null;
     
-    this.setState({ selectedItem: key === previousSelectedItem ? null : key });
-    
-    debugger;
+    onItemSelect(key);
   };
   
   renderFile(fileObject, isSelected) {
@@ -42,20 +39,22 @@ export default class MyComponent extends Component {
   
   renderFolder(folderObject, isSelected) {
     const { name, children } = folderObject;
+    const { onItemSelect, selectedItem } = this.props;
     
     return (
       <DirectoryItem
         name={name}
         childFiles={children}
         selected={isSelected}
+        onItemSelect={onItemSelect}
+        selectedItem={selectedItem}
       />
     );
   };
   
   
   render() {
-    const { selectedItem } = this.state;
-    const { content } = this.props;
+    const { content, selectedItem } = this.props;
     
     return (
       <div className={styles.container}>
