@@ -7,7 +7,7 @@ import DirectoryContainer from 'components/DirectoryContainer';
 export default class AppController extends Component {
   state = {
     selectedItem: null,
-    directoryRoot: null
+    directoryRoot: '/'
   };
   
   onItemSelect = key => {
@@ -19,15 +19,23 @@ export default class AppController extends Component {
     });
   };
   
+  onFolderDoubleClick = folderPath => {
+    console.log('========================');
+    console.log(folderPath);
+    console.log('========================');
+  };
+  
   
   render() {
     const { directoryRoot, selectedItem } = this.state;
-    
+  
     return (
       <DirectoryContainer
         content={DIR}
-        onItemSelect={this.onItemSelect}
         selectedItem={selectedItem}
+        root={directoryRoot}
+        onItemSelect={this.onItemSelect}
+        onFolderDoubleClick={this.onFolderDoubleClick}
       />
     );
   }

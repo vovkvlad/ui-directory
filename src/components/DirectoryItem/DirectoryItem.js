@@ -11,7 +11,9 @@ export default class DirectoryItem extends Component {
     name: PropTypes.string,
     selected: PropTypes.bool,
     selectedItem: PropTypes.string,
+    root: PropTypes.string,
     onItemSelect: PropTypes.func,
+    onFolderDoubleClick: PropTypes.func,
   };
   
   static defaultProps = {
@@ -31,13 +33,32 @@ export default class DirectoryItem extends Component {
     });
   };
   
+  folderDoubleClick = event => {
+    event.stopPropagation();
+    const { onFolderDoubleClick, root, name } = this.props;
+    onFolderDoubleClick(`${root}${name}/`)
+  };
+  
   render() {
     const { isOpen } = this.state;
-    const { name, childFiles, selected, onItemSelect, selectedItem } = this.props;
+    const {
+      name,
+      childFiles,
+      selected,
+      onItemSelect,
+      selectedItem,
+      root,
+      onFolderDoubleClick
+    } = this.props;
+    
+    const nestedRoot = `${root}${name}/`;
     
     return (
       <Fragment>
-        <div className={cx(styles.container, { [ styles.selected ]: selected })}>
+        <div
+          className={cx(styles.container, { [ styles.selected ]: selected })}
+          onDoubleClick={this.folderDoubleClick}
+        >
           {isOpen ?
             <span onClick={this.toggleOpen} className={`fas fa-caret-down ${styles.caret}`}/> :
             <span onClick={this.toggleOpen} className={`fas fa-caret-right ${styles.caret}`}/>}
@@ -47,8 +68,11 @@ export default class DirectoryItem extends Component {
         {isOpen ?
           <DirectoryContainer
             content={childFiles}
+            selectedItem={selectedItem}
+            root={nestedRoot}
+            onFolderDoubleClick={onFolderDoubleClick}
             onItemSelect={onItemSelect}
-            selectedItem={selectedItem}/>
+          />
           : null}
       </Fragment>
     );

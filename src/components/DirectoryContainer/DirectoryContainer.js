@@ -9,8 +9,10 @@ import styles from './DirectoryContainer.scss';
 export default class MyComponent extends Component {
   static propTypes = {
     content: PropTypes.array,
-    onItemSelect: PropTypes.func,
     selectedItem: PropTypes.string,
+    root: PropTypes.string,
+    onItemSelect: PropTypes.func,
+    onFolderDoubleClick: PropTypes.func,
   };
   
   selectItem = (event) => {
@@ -39,7 +41,7 @@ export default class MyComponent extends Component {
   
   renderFolder(folderObject, isSelected) {
     const { name, children } = folderObject;
-    const { onItemSelect, selectedItem } = this.props;
+    const { onItemSelect, selectedItem, root,  onFolderDoubleClick } = this.props;
     
     return (
       <DirectoryItem
@@ -47,7 +49,9 @@ export default class MyComponent extends Component {
         childFiles={children}
         selected={isSelected}
         onItemSelect={onItemSelect}
+        root={root}
         selectedItem={selectedItem}
+        onFolderDoubleClick={onFolderDoubleClick}
       />
     );
   };
