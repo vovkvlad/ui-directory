@@ -26,7 +26,7 @@ export default class MyComponent extends Component {
   };
   
   renderFile(fileObject, isSelected) {
-    // we are not proccess files like file.txt.js for now
+    // we are not process files like file.txt.js for now
     const { name, extension, ...meta } = fileObject;
     return (
       <File
@@ -43,6 +43,7 @@ export default class MyComponent extends Component {
     const { name, children } = folderObject;
     const { onItemSelect, selectedItem, root,  onFolderDoubleClick } = this.props;
     
+    // TODO Possibly think of transferrring common props to context in order not to pass them via props recursively
     return (
       <DirectoryItem
         name={name}

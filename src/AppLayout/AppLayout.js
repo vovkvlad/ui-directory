@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Route,
-  NavLink
+  NavLink,
+  Redirect,
 } from 'react-router-dom'
 
 import SideNav from './SideNav';
@@ -18,8 +19,7 @@ export default class AppLayout extends Component {
       <div className={styles.container}>
         <SideNav>
           <NavLink
-            exact={true}
-            to="/"
+            to="/react"
             activeClassName={styles.activeSideNavLink}
             className={styles.sideNavLink}>
             Pure react app
@@ -38,7 +38,8 @@ export default class AppLayout extends Component {
           </NavLink>
         </SideNav>
         <MainContainer>
-          <Route exact path="/" component={reactApp}/>
+          <Redirect from="/" to="/react" />
+          <Route path="/react" component={reactApp}/>
           <Route path="/redux" component={reduxApp}/>
           <Route path="/mobx" component={mobxApp}/>
         </MainContainer>
