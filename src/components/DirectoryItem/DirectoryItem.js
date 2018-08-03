@@ -51,7 +51,9 @@ export default class DirectoryItem extends Component {
       onFolderDoubleClick
     } = this.props;
     
-    const nestedRoot = `${root}${name}/`;
+    
+    
+    const nestedRoot = root ==='/' ? `${name}/`: `${root}${name}/`;
     
     return (
       <Fragment>

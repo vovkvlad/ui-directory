@@ -30,7 +30,7 @@ class AppController extends Component {
     console.log(folderPath);
     console.log('========================');
   
-    push(`${url}${folderPath}`)
+    //push(`/${url}${folderPath}`)
   };
   
   getContentByPath = (path) => {
