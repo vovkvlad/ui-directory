@@ -13,7 +13,8 @@ module.exports = {
   
   output: {
     path: PATHS.DIST,
-    filename: 'app.bundle.js'
+    filename: 'app.bundle.js',
+    publicPath: "/"
   },
   
   devtool: "eval-source-map",

@@ -3,6 +3,7 @@ import {
   Route,
   NavLink,
   Redirect,
+  Switch,
 } from 'react-router-dom'
 
 import SideNav from './SideNav';
@@ -38,10 +39,12 @@ export default class AppLayout extends Component {
           </NavLink>
         </SideNav>
         <MainContainer>
-          <Redirect from="/" to="/react" />
-          <Route path="/react" component={reactApp}/>
-          <Route path="/redux" component={reduxApp}/>
-          <Route path="/mobx" component={mobxApp}/>
+          <Switch>
+            <Redirect exact from="/" to="/react" />
+            <Route path="/react" component={reactApp}/>
+            <Route path="/redux" component={reduxApp}/>
+            <Route path="/mobx" component={mobxApp}/>
+          </Switch>
         </MainContainer>
       </div>
     );
