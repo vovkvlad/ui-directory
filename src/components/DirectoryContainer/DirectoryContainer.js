@@ -43,7 +43,7 @@ export default class MyComponent extends Component {
     const { name, children } = folderObject;
     const { onItemSelect, selectedItem, root,  onFolderDoubleClick } = this.props;
     
-    // TODO Possibly think of transferrring common props to context in order not to pass them via props recursively
+    // TODO Possibly think of transferring common props to context in order not to pass them via props recursively
     return (
       <DirectoryItem
         name={name}
