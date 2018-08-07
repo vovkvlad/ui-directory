@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { compact } from 'lodash';
 
 import { DIR } from './testDirectoryStructure';
 import DirectoryContainer from 'components/DirectoryContainer';
+import BreadCrumbs from 'components/Breadcrumbs';
 
 class AppController extends Component {
   static propTypes = {
@@ -55,13 +56,16 @@ class AppController extends Component {
     const content = this.getContentByPath(root);
   
     return (
-      <DirectoryContainer
-        content={content}
-        selectedItem={selectedItem}
-        root={root}
-        onItemSelect={this.onItemSelect}
-        onFolderDoubleClick={this.onFolderDoubleClick}
-      />
+      <Fragment>
+        <BreadCrumbs path={root} />
+        <DirectoryContainer
+          content={content}
+          selectedItem={selectedItem}
+          root={root}
+          onItemSelect={this.onItemSelect}
+          onFolderDoubleClick={this.onFolderDoubleClick}
+        />
+      </Fragment>
     );
   }
 }

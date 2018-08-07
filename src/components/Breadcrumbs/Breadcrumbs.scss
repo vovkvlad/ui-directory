@@ -1,0 +1,12 @@
+@import "../../variables";
+
+.container {
+  height: 30px;
+  display: flex;
+  font-size: $font-size-medium;
+  margin-top: 5px;
+}
+
+.item {
+  margin: 0 10px;
+}
