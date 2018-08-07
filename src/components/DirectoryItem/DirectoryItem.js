@@ -6,6 +6,12 @@ import DirectoryContainer from 'components/DirectoryContainer';
 import styles from './DirectoryItem.scss';
 
 export default class DirectoryItem extends Component {
+  constructor(props) {
+    super(props);
+    const { name, root } = props;
+    this.nestedRoot = root ==='/' ? `${root}${name}`: `${root}/${name}`;
+  }
+  
   static propTypes = {
     childFiles: PropTypes.array,
     name: PropTypes.string,
@@ -35,8 +41,8 @@ export default class DirectoryItem extends Component {
   
   folderDoubleClick = event => {
     event.stopPropagation();
-    const { onFolderDoubleClick, root, name } = this.props;
-    onFolderDoubleClick(`${root}${name}/`)
+    const { onFolderDoubleClick } = this.props;
+    onFolderDoubleClick(this.nestedRoot);
   };
   
   render() {
@@ -47,13 +53,8 @@ export default class DirectoryItem extends Component {
       selected,
       onItemSelect,
       selectedItem,
-      root,
       onFolderDoubleClick
     } = this.props;
-    
-    
-    
-    const nestedRoot = root ==='/' ? `${name}/`: `${root}${name}/`;
     
     return (
       <Fragment>
@@ -71,7 +72,7 @@ export default class DirectoryItem extends Component {
           <DirectoryContainer
             content={childFiles}
             selectedItem={selectedItem}
-            root={nestedRoot}
+            root={this.nestedRoot}
             onFolderDoubleClick={onFolderDoubleClick}
             onItemSelect={onItemSelect}
           />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+import { compact } from 'lodash';
 
 import { DIR } from './testDirectoryStructure';
 import DirectoryContainer from 'components/DirectoryContainer';
@@ -12,7 +13,6 @@ class AppController extends Component {
   
   state = {
     selectedItem: null,
-    directoryRoot: '/'
   };
   
   onItemSelect = key => {
@@ -26,24 +26,37 @@ class AppController extends Component {
   
   onFolderDoubleClick = folderPath => {
     const { history: { push }, match: { url }} = this.props;
-    console.log('========================');
-    console.log(folderPath);
-    console.log('========================');
   
-    //push(`/${url}${folderPath}`)
+    push(`${url}${folderPath}`)
   };
   
   getContentByPath = (path) => {
+    const subDirectories = compact(path.split('/'));
+    let currentDir = DIR;
+    
+    subDirectories.forEach(subDirectory => {
+      const subDirectoryResult = currentDir.find(item => item.name === subDirectory);
+      
+      if (!subDirectoryResult) {
+        throw new Error(`There is no such directory as ${subDirectory}`);
+      } else {
+        currentDir = subDirectoryResult.children;
+      }
+    });
+    
+    return currentDir;
   };
   
   
   render() {
     const { selectedItem } = this.state;
     const { root } = this.props;
+    
+    const content = this.getContentByPath(root);
   
     return (
       <DirectoryContainer
-        content={DIR}
+        content={content}
         selectedItem={selectedItem}
         root={root}
         onItemSelect={this.onItemSelect}
