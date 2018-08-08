@@ -9,28 +9,48 @@ import styles from './Breadcrumbs.scss';
 class Breadcrumbs extends Component {
   static propTypes = {
     path: PropTypes.string.isRequired,
+    onBreadcrumbClick: PropTypes.func.isRequired,
+  };
+  
+  onItemClick = event => {
+    const { onBreadcrumbClick } = this.props;
+    
+    const clickedElement = event.target;
+    const path = clickedElement.getAttribute('data-sub-path');
+    
+    onBreadcrumbClick(path);
   };
   
   render() {
     const { path } = this.props;
-    const subPaths = compact(path.split('/'));
+    const folders = compact(path.split('/'));
     
-    subPaths.unshift('/');
+    folders.unshift('/');
+    let subPath = '';
     
     return (
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        onClick={this.onItemClick}
+      >
         {
-          subPaths.map(( subPathItem, index, array )=> {
+          folders.map(( folder, index, array )=> {
+            subPath += folder;
+            if ((index !== array.length -1) && (index !== 0)) {
+              subPath += '/';
+            }
             return (
-              <Fragment key={subPathItem}>
+              <Fragment key={subPath}>
                 <BreadCrumbItem
-                  name={subPathItem}
-                  isRoot={subPathItem === '/'}
+                  name={folder}
+                  subPath={subPath}
+                  isRoot={folder === '/'}
                 />
                 {index === array.length - 1 ? null : <Delimiter />}
               </Fragment>
             );
-          })}
+          })
+        }
       </div>
     );
   }

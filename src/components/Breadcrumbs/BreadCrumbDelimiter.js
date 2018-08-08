@@ -1,4 +1,7 @@
 import React from 'react';
+import cx from 'classnames';
 
-export default () => <span className="fas fa-angle-right" />;
+import styles from './Breadcrumbs.scss';
+
+export default () => <span className={cx('fas fa-angle-right', styles.itemText)} />;
 

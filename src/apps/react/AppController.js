@@ -48,6 +48,12 @@ class AppController extends Component {
     return currentDir;
   };
   
+  onBreadcrumbClick = folderPath => {
+    const { history: { push }, match: { url }} = this.props;
+    
+    push(`${url}${folderPath === '/' ? '' : folderPath}`);
+  };
+  
   
   render() {
     const { selectedItem } = this.state;
@@ -57,7 +63,10 @@ class AppController extends Component {
   
     return (
       <Fragment>
-        <BreadCrumbs path={root} />
+        <BreadCrumbs
+          path={root}
+          onBreadcrumbClick={this.onBreadcrumbClick}
+        />
         <DirectoryContainer
           content={content}
           selectedItem={selectedItem}

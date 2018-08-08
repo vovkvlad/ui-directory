@@ -9,4 +9,13 @@
 
 .item {
   margin: 0 10px;
+
+  &:hover {
+    cursor: pointer;
+    color: $hightlight_orange;
+  }
+}
+
+.itemText {
+  line-height: 30px;
 }
