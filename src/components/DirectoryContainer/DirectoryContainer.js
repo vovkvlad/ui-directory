@@ -59,13 +59,16 @@ export default class MyComponent extends Component {
   
   
   render() {
-    const { content, selectedItem } = this.props;
+    const { content, selectedItem, root } = this.props;
     
     return (
       <div className={styles.container}>
         {
           content.map((item, index) => {
-            const key = JSON.stringify(item);
+            const key = '/' ? `${root}${item.name}`: `${root}/${item.name}`;
+            console.log('========================');
+            console.log(key);
+            console.log('========================');
             const isSelected = key === selectedItem;
             
             return (
