@@ -66,9 +66,6 @@ export default class MyComponent extends Component {
         {
           content.map((item, index) => {
             const key = root === '/' ? `${root}${item.name}`: `${root}/${item.name}`;
-            console.log('========================');
-            console.log(key);
-            console.log('========================');
             const isSelected = key === selectedItem;
             
             return (

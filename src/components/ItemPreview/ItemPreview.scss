@@ -1,6 +1,29 @@
+@import "../../variables";
 .container {
   position: fixed;
   top: 0;
   left: calc(100% - 300px);
+  width: 300px;
+  height: 100vh;
   background: beige;
 }
+
+.itemHeader {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerIcon {
+  align-self: center;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  font-size: $font-size-extra-large;
+}
+
+.headerName {
+  align-self: center;
+  font-size: $font-size-medium;
+  margin-bottom: 30px;
+}
+
+.itemMeta {}

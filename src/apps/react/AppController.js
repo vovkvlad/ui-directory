@@ -55,26 +55,7 @@ class AppController extends Component {
       
     });
     
-    const children = get(currentItem, 'children');
-    
-    return children || currentItem;
-  };
-  
-  getContentByPath = (path) => {
-    const subDirectories = compact(path.split('/'));
-    let currentDir = DIR;
-    
-    subDirectories.forEach(subDirectory => {
-      const subDirectoryResult = currentDir.find(item => item.name === subDirectory);
-      
-      if (!subDirectoryResult) {
-        throw new Error(`There is no such directory as ${subDirectory}`);
-      } else {
-        currentDir = subDirectoryResult.children;
-      }
-    });
-    
-    return currentDir;
+    return currentItem;
   };
   
   onBreadcrumbClick = folderPath => {
@@ -98,15 +79,13 @@ class AppController extends Component {
           onBreadcrumbClick={this.onBreadcrumbClick}
         />
         <DirectoryContainer
-          content={content || content.children}
+          content={get(content, 'children') || content}
           selectedItem={selectedItem}
           root={root}
           onItemSelect={this.onItemSelect}
           onFolderDoubleClick={this.onFolderDoubleClick}
         />
-        <ItemPreview
-          selectedItem={selected}
-        />
+        {selectedItem && <ItemPreview selectedItem={selected}/>}
       </Fragment>
     );
   }
