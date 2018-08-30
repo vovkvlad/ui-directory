@@ -12,12 +12,12 @@ class BreadcrumbItem extends Component {
   };
   
   render() {
-    const { isRoot, name, subPath } = this.props;
+    const { isRoot, name, subPath, onBreadCrumbClick } = this.props;
     return (
-      <div className={styles.item}>
+      <div className={styles.item} onClick={() => onBreadCrumbClick(subPath)}>
         {isRoot ?
-          <span className={cx('fas fa-home', styles.itemText )} data-sub-path={subPath} /> :
-          <span className={styles.itemText} data-sub-path={subPath}>{name}</span>
+          <span className={cx('fas fa-home', styles.itemText )} /> :
+          <span className={styles.itemText}>{name}</span>
         }
       </div>
     );

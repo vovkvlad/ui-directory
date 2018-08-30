@@ -65,7 +65,7 @@ export default class MyComponent extends Component {
       <div className={styles.container}>
         {
           content.map((item, index) => {
-            const key = '/' ? `${root}${item.name}`: `${root}/${item.name}`;
+            const key = root === '/' ? `${root}${item.name}`: `${root}/${item.name}`;
             console.log('========================');
             console.log(key);
             console.log('========================');

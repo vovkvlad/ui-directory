@@ -12,17 +12,8 @@ class Breadcrumbs extends Component {
     onBreadcrumbClick: PropTypes.func.isRequired,
   };
   
-  onItemClick = event => {
-    const { onBreadcrumbClick } = this.props;
-    
-    const clickedElement = event.target;
-    const path = clickedElement.getAttribute('data-sub-path');
-    
-    onBreadcrumbClick(path);
-  };
-  
   render() {
-    const { path } = this.props;
+    const { path, onBreadcrumbClick } = this.props;
     const folders = compact(path.split('/'));
     
     folders.unshift('/');
@@ -31,7 +22,6 @@ class Breadcrumbs extends Component {
     return (
       <div
         className={styles.container}
-        onClick={this.onItemClick}
       >
         {
           folders.map(( folder, index, array )=> {
@@ -45,6 +35,7 @@ class Breadcrumbs extends Component {
                   name={folder}
                   subPath={subPath}
                   isRoot={folder === '/'}
+                  onBreadCrumbClick={onBreadcrumbClick}
                 />
                 {index === array.length - 1 ? null : <Delimiter />}
               </Fragment>
