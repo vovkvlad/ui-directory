@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { compact, get } from 'lodash';
+import { compact, get, cloneDeep, set } from 'lodash';
 
 import { DIR } from './testDirectoryStructure';
 import DirectoryContainer from 'components/DirectoryContainer';
@@ -17,6 +17,7 @@ class AppController extends Component {
   
   state = {
     selectedItem: null,
+    fileTree: DIR,
   };
   
   onItemSelect = key => {
@@ -36,7 +37,7 @@ class AppController extends Component {
   
   getItemByPath = (path) => {
     const subDirectories = compact(path.split('/'));
-    let currentItem = DIR;
+    let currentItem = this.state.fileTree;
     
     subDirectories.forEach((subDirectory, index, array) => {
       const subDirectoryResult = currentItem.find(item => item.name === subDirectory);
@@ -58,16 +59,62 @@ class AppController extends Component {
     return currentItem;
   };
   
+  constructGetterPath = (path, tree) => {
+    const subDirectories = compact(path.split('/'));
+    let currentItem = this.state.fileTree;
+    let getterPath = '';
+    
+    subDirectories.forEach((subDirectory, index, array) => {
+      const subDirectoryResultIndex = currentItem.findIndex(item => item.name === subDirectory);
+    
+      if (subDirectoryResultIndex === -1) {
+        throw new Error(`There is no such directory or file as ${subDirectory}`);
+      } else {
+       getterPath += `[${subDirectoryResultIndex}]`;
+       if (index !== array.length - 1) {
+         currentItem = currentItem[subDirectoryResultIndex].children;
+         getterPath +='.children';
+       }
+      }
+    
+    });
+  
+    return getterPath;
+  };
+  
   onBreadcrumbClick = folderPath => {
     const { history: { push }, match: { url } } = this.props;
     
     push(`${url}${folderPath === '/' ? '' : folderPath}`);
   };
   
+  onItemCreate = ({ path, name, extension, isFile }) => {
+    const { fileTree } = this.state;
+    const destination = this.getItemByPath(path);
+    const existingChildren = get(destination, 'children');
+    if (!existingChildren) {
+      throw new Error('You can create something only inside directory');
+    }
+    
+    const newItem = isFile ?
+      { name, extension } : { name, children: [] };
+    
+    const newChildren = [ ...existingChildren, newItem ];
+    // I know this is bad, but I ran myself into pitfall :/
+    const newTree = set(cloneDeep(fileTree), this.constructGetterPath(path).children, newChildren);
+    this.setState({
+      fileTree: newTree,
+    });
+  };
+  
   
   render() {
-    const { selectedItem } = this.state;
+    const { selectedItem, fileTree } = this.state;
     const { root } = this.props;
+  
+    console.log('========================');
+    console.log(this.constructGetterPath('Folder2/Folder3/File11', fileTree));
+    console.log('========================');
     
     const content = this.getItemByPath(root);
     const selected = selectedItem && this.getItemByPath(selectedItem);
