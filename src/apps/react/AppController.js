@@ -7,6 +7,7 @@ import { DIR } from './testDirectoryStructure';
 import DirectoryContainer from 'components/DirectoryContainer';
 import BreadCrumbs from 'components/Breadcrumbs';
 import ItemPreview from 'components/ItemPreview';
+import ContextMenu from 'components/ContextMenu';
 
 import styles from './app.scss';
 
@@ -120,6 +121,13 @@ class AppController extends Component {
     const selected = selectedItem && this.getItemByPath(selectedItem);
     
     return (
+      <ContextMenu
+        position={{x: 200, y:20}}
+        items={[]}
+      />
+    );
+    
+    /*return (
       <Fragment>
         <BreadCrumbs
           path={root}
@@ -134,7 +142,7 @@ class AppController extends Component {
         />
         {selectedItem && <ItemPreview selectedItem={selected}/>}
       </Fragment>
-    );
+    );*/
   }
 }
 

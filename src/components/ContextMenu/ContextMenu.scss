@@ -1,0 +1,30 @@
+@import "../../variables";
+
+.container {
+  display: block;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  border: 1px solid $grey;
+  border-radius: 5px;
+  background: $white;
+  box-shadow: 5px 5px 22px 0px rgba(0,0,0,0.4);
+}
+
+.listItem {
+  padding: 10px;
+  border-bottom: 1px solid $grey;
+  list-style: none;
+  cursor: pointer;
+  transition: all 100ms ease;
+
+  &:last-of-type {
+    border: none;
+  }
+
+  &:hover {
+    color: $orange;
+    padding-left: 20px;
+    padding-right: 0;
+  }
+}
