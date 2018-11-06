@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import style from './ContextMenu.scss';
@@ -15,7 +16,7 @@ export default class ContextMenu extends Component {
     })),
   };
   
-  render() {
+  renderMenu() {
     const { position: { x, y }} = this.props;
     const positionStyle = {
       left: x,
@@ -29,8 +30,13 @@ export default class ContextMenu extends Component {
         <li className={style.listItem}>Item 1 asdsdadadasddsad</li>
         <li className={style.listItem}>Item 1 asdsdadadasddsad</li>
         <li className={style.listItem}>Item 1 asdsdadadasddsad</li>
-
       </ul>
     );
+  }
+  
+  render() {
+    let mainContainer = document.getElementById('app');
+    
+    return ReactDOM.createPortal(this.renderMenu(), mainContainer);
   }
 }

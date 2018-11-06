@@ -13,16 +13,34 @@ export default class MyComponent extends Component {
     root: PropTypes.string,
     onItemSelect: PropTypes.func,
     onFolderDoubleClick: PropTypes.func,
+    onItemRightButtonClick: PropTypes.func,
+  };
+  
+  onItemClick = (event) => {
+    event.stopPropagation();
+    
+    this.selectItem(event);
+  };
+  
+  openContextMenu = (event) => {
+    const { onItemRightButtonClick } = this.props;
+    const { clientX: x, clientX: y } = event;
+    onItemRightButtonClick({ position: { x, y } });
   };
   
   selectItem = (event) => {
-    event.stopPropagation();
-    
     const { onItemSelect } = this.props;
     const { currentTarget } = event;
     let key = currentTarget ? currentTarget.getAttribute('data-key') : null;
     
     onItemSelect(key);
+  };
+  
+  onItemRightButtonClick = (event) => {
+    event.stopPropagation();
+    
+    this.selectItem(event);
+    this.openContextMenu(event);
   };
   
   renderFile(fileObject, isSelected) {
@@ -41,7 +59,7 @@ export default class MyComponent extends Component {
   
   renderFolder(folderObject, isSelected) {
     const { name, children } = folderObject;
-    const { onItemSelect, selectedItem, root,  onFolderDoubleClick } = this.props;
+    const { onItemSelect, selectedItem, root, onFolderDoubleClick } = this.props;
     
     // TODO Possibly think of transferring common props to context in order not to pass them via props recursively
     return (
@@ -65,7 +83,7 @@ export default class MyComponent extends Component {
       <div className={styles.container}>
         {
           content.map((item, index) => {
-            const key = root === '/' ? `${root}${item.name}`: `${root}/${item.name}`;
+            const key = root === '/' ? `${root}${item.name}` : `${root}/${item.name}`;
             const isSelected = key === selectedItem;
             
             return (
@@ -73,7 +91,8 @@ export default class MyComponent extends Component {
                 className={styles.directoryItem}
                 key={key}
                 data-key={key}
-                onClick={this.selectItem}
+                onClick={this.onItemClick}
+                onContextMenu={this.onItemRightButtonClick}
               >
                 {get(item, 'children') ? this.renderFolder(item, isSelected) : this.renderFile(item, isSelected)}
               </div>

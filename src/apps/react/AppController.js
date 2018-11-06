@@ -19,6 +19,10 @@ class AppController extends Component {
   state = {
     selectedItem: null,
     fileTree: DIR,
+    contextMenu: {
+      display: false,
+      position: { x: 0, y: 0 },
+    },
   };
   
   onItemSelect = key => {
@@ -26,7 +30,10 @@ class AppController extends Component {
     
     const newSelectedItem = selectedItem === key ? null : key;
     this.setState({
-      selectedItem: newSelectedItem
+      selectedItem: newSelectedItem,
+      contextMenu: {
+        display: false,
+      }
     });
   };
   
@@ -67,19 +74,19 @@ class AppController extends Component {
     
     subDirectories.forEach((subDirectory, index, array) => {
       const subDirectoryResultIndex = currentItem.findIndex(item => item.name === subDirectory);
-    
+      
       if (subDirectoryResultIndex === -1) {
         throw new Error(`There is no such directory or file as ${subDirectory}`);
       } else {
-       getterPath += `[${subDirectoryResultIndex}]`;
-       if (index !== array.length - 1) {
-         currentItem = currentItem[subDirectoryResultIndex].children;
-         getterPath +='.children';
-       }
+        getterPath += `[${subDirectoryResultIndex}]`;
+        if (index !== array.length - 1) {
+          currentItem = currentItem[ subDirectoryResultIndex ].children;
+          getterPath += '.children';
+        }
       }
-    
+      
     });
-  
+    
     return getterPath;
   };
   
@@ -108,11 +115,21 @@ class AppController extends Component {
     });
   };
   
+  onItemRightButtonClick = ({ position }) => {
+    this.setState({
+      contextMenu: {
+        display: true,
+        position,
+      }
+    });
+  };
+  
   
   render() {
-    const { selectedItem, fileTree } = this.state;
+    const { selectedItem, fileTree, contextMenu } = this.state;
     const { root } = this.props;
-  
+    const { display: showContextMenu, position } = contextMenu;
+    
     console.log('========================');
     console.log(this.constructGetterPath('Folder2/Folder3/File11', fileTree));
     console.log('========================');
@@ -120,14 +137,14 @@ class AppController extends Component {
     const content = this.getItemByPath(root);
     const selected = selectedItem && this.getItemByPath(selectedItem);
     
-    return (
+    /*return (
       <ContextMenu
         position={{x: 200, y:20}}
         items={[]}
       />
-    );
+    );*/
     
-    /*return (
+    return (
       <Fragment>
         <BreadCrumbs
           path={root}
@@ -139,10 +156,17 @@ class AppController extends Component {
           root={root}
           onItemSelect={this.onItemSelect}
           onFolderDoubleClick={this.onFolderDoubleClick}
+          onItemRightButtonClick={this.onItemRightButtonClick}
         />
         {selectedItem && <ItemPreview selectedItem={selected}/>}
+        {showContextMenu && (
+          <ContextMenu
+            position={position}
+            items={[]}
+          />
+        )}
       </Fragment>
-    );*/
+    );
   }
 }
 
