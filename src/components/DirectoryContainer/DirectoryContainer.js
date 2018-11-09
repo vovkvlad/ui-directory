@@ -24,7 +24,7 @@ export default class MyComponent extends Component {
   
   openContextMenu = (event) => {
     const { onItemRightButtonClick } = this.props;
-    const { clientX: x, clientX: y } = event;
+    const { clientX: x, clientY: y } = event;
     onItemRightButtonClick({ position: { x, y } });
   };
   
@@ -38,6 +38,7 @@ export default class MyComponent extends Component {
   
   onItemRightButtonClick = (event) => {
     event.stopPropagation();
+    event.preventDefault();
     
     this.selectItem(event);
     this.openContextMenu(event);
