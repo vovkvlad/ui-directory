@@ -8,6 +8,8 @@ import DirectoryContainer from 'components/DirectoryContainer';
 import BreadCrumbs from 'components/Breadcrumbs';
 import ItemPreview from 'components/ItemPreview';
 import ContextMenu from 'components/ContextMenu';
+import { constructGetterPath } from 'utils/constructGetterPath';
+import { getItemByPath } from 'utils/getItemByPath';
 
 import styles from './app.scss';
 
@@ -43,53 +45,6 @@ class AppController extends Component {
     push(`${url}${folderPath}`)
   };
   
-  getItemByPath = (path) => {
-    const subDirectories = compact(path.split('/'));
-    let currentItem = this.state.fileTree;
-    
-    subDirectories.forEach((subDirectory, index, array) => {
-      const subDirectoryResult = currentItem.find(item => item.name === subDirectory);
-      
-      if (!subDirectoryResult) {
-        throw new Error(`There is no such directory or file as ${subDirectory}`);
-      } else {
-        // if this is the last one - we need to return it as is as it might be a file - otherwise
-        // it is definitely subfolder and we need to go deeper
-        if (index === array.length - 1) {
-          currentItem = subDirectoryResult;
-        } else {
-          currentItem = subDirectoryResult.children;
-        }
-      }
-      
-    });
-    
-    return currentItem;
-  };
-  
-  constructGetterPath = (path, tree) => {
-    const subDirectories = compact(path.split('/'));
-    let currentItem = this.state.fileTree;
-    let getterPath = '';
-    
-    subDirectories.forEach((subDirectory, index, array) => {
-      const subDirectoryResultIndex = currentItem.findIndex(item => item.name === subDirectory);
-      
-      if (subDirectoryResultIndex === -1) {
-        throw new Error(`There is no such directory or file as ${subDirectory}`);
-      } else {
-        getterPath += `[${subDirectoryResultIndex}]`;
-        if (index !== array.length - 1) {
-          currentItem = currentItem[ subDirectoryResultIndex ].children;
-          getterPath += '.children';
-        }
-      }
-      
-    });
-    
-    return getterPath;
-  };
-  
   onBreadcrumbClick = folderPath => {
     const { history: { push }, match: { url } } = this.props;
     
@@ -98,7 +53,7 @@ class AppController extends Component {
   
   onItemCreate = ({ path, name, extension, isFile }) => {
     const { fileTree } = this.state;
-    const destination = this.getItemByPath(path);
+    const destination = getItemByPath(fileTree, path);
     const existingChildren = get(destination, 'children');
     if (!existingChildren) {
       throw new Error('You can create something only inside directory');
@@ -109,7 +64,7 @@ class AppController extends Component {
     
     const newChildren = [ ...existingChildren, newItem ];
     // I know this is bad, but I ran myself into pitfall :/
-    const newTree = set(cloneDeep(fileTree), this.constructGetterPath(path).children, newChildren);
+    const newTree = set(cloneDeep(fileTree), constructGetterPath(path, fileTree).children, newChildren);
     this.setState({
       fileTree: newTree,
     });
@@ -131,11 +86,11 @@ class AppController extends Component {
     const { display: showContextMenu, position } = contextMenu;
     
     console.log('========================');
-    console.log(this.constructGetterPath('Folder2/Folder3/File11', fileTree));
+    console.log(constructGetterPath('Folder2/Folder3/File11', fileTree));
     console.log('========================');
     
-    const content = this.getItemByPath(root);
-    const selected = selectedItem && this.getItemByPath(selectedItem);
+    const content = getItemByPath(fileTree, root);
+    const selected = selectedItem && getItemByPath(fileTree, selectedItem);
     
     /*return (
       <ContextMenu
