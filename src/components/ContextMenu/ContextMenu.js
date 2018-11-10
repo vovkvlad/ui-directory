@@ -11,25 +11,43 @@ export default class ContextMenu extends Component {
       y: PropTypes.number,
     }),
     items: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string,
       label: PropTypes.string,
       fn: PropTypes.func,
     })),
+    selectedItem: PropTypes.string,
   };
   
   renderMenu() {
-    const { position: { x, y }} = this.props;
+    const { position: { x, y }, items, selectedItem } = this.props;
     const positionStyle = {
       left: x,
       top: y,
     };
+    console.log('==========================');
+    console.log(selectedItem);
+    console.log('==========================');
     return (
       <ul className={style.container} style={positionStyle}>
-        <li className={style.listItem}>Item 1 asdsdadadasddsad</li>
+        {/*<li className={style.listItem}>Item 1 asdsdadadasddsad</li>
         <li className={style.listItem}>Item 3</li>
         <li className={style.listItem}>Item 1 asdsdadadasddsad</li>
         <li className={style.listItem}>Item 1 asdsdadadasddsad</li>
         <li className={style.listItem}>Item 1 asdsdadadasddsad</li>
-        <li className={style.listItem}>Item 1 asdsdadadasddsad</li>
+        <li className={style.listItem}>Item 1 asdsdadadasddsad</li>*/}
+        {
+          items.map(({ key, label, fn }) => {
+            return (
+              <li
+                key={key}
+                onClick={fn}
+                className={style.listItem}
+              >
+                {label}
+              </li>
+            );
+          })
+        }
       </ul>
     );
   }

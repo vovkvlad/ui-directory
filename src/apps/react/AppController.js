@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { compact, get, cloneDeep, set } from 'lodash';
+import { compact, get, cloneDeep, set, last } from 'lodash';
 
 import { DIR } from './testDirectoryStructure';
 import DirectoryContainer from 'components/DirectoryContainer';
@@ -79,25 +79,43 @@ class AppController extends Component {
     });
   };
   
+  contextMenuItems = () => {
+    const { selectedItem, fileTree } = this.state;
+    const selectedItemName = last(selectedItem.split('/'));
+    
+    return [
+      {
+        key: 'rename',
+        label: `Rename ${selectedItemName}`,
+        fn: () => {
+          console.log(this.state);
+        },
+      },
+      {
+        key: 'remove',
+        label: `Remove ${selectedItemName}`,
+        fn: () => {},
+      },
+      {
+        key: 'add',
+        label: `Add new Item`,
+        fn: () => {},
+      }
+    ];
+  };
+  
   
   render() {
     const { selectedItem, fileTree, contextMenu } = this.state;
     const { root } = this.props;
     const { display: showContextMenu, position } = contextMenu;
     
-    console.log('========================');
+    /*console.log('========================');
     console.log(constructGetterPath('Folder2/Folder3/File11', fileTree));
-    console.log('========================');
+    console.log('========================');*/
     
     const content = getItemByPath(fileTree, root);
     const selected = selectedItem && getItemByPath(fileTree, selectedItem);
-    
-    /*return (
-      <ContextMenu
-        position={{x: 200, y:20}}
-        items={[]}
-      />
-    );*/
     
     return (
       <Fragment>
@@ -117,7 +135,8 @@ class AppController extends Component {
         {showContextMenu && (
           <ContextMenu
             position={position}
-            items={[]}
+            items={this.contextMenuItems()}
+            selectedItem={selectedItem}
           />
         )}
       </Fragment>

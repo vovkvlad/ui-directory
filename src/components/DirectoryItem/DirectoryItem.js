@@ -20,6 +20,7 @@ export default class DirectoryItem extends Component {
     root: PropTypes.string,
     onItemSelect: PropTypes.func,
     onFolderDoubleClick: PropTypes.func,
+    onItemRightButtonClick: PropTypes.func,
   };
   
   static defaultProps = {
@@ -53,7 +54,8 @@ export default class DirectoryItem extends Component {
       selected,
       onItemSelect,
       selectedItem,
-      onFolderDoubleClick
+      onFolderDoubleClick,
+      onItemRightButtonClick
     } = this.props;
     
     return (
@@ -75,6 +77,7 @@ export default class DirectoryItem extends Component {
             root={this.nestedRoot}
             onFolderDoubleClick={onFolderDoubleClick}
             onItemSelect={onItemSelect}
+            onItemRightButtonClick={onItemRightButtonClick}
           />
           : null}
       </Fragment>

@@ -60,7 +60,13 @@ export default class MyComponent extends Component {
   
   renderFolder(folderObject, isSelected) {
     const { name, children } = folderObject;
-    const { onItemSelect, selectedItem, root, onFolderDoubleClick } = this.props;
+    const {
+      onItemSelect,
+      selectedItem,
+      root,
+      onFolderDoubleClick,
+      onItemRightButtonClick
+    } = this.props;
     
     // TODO Possibly think of transferring common props to context in order not to pass them via props recursively
     return (
@@ -72,6 +78,7 @@ export default class MyComponent extends Component {
         root={root}
         selectedItem={selectedItem}
         onFolderDoubleClick={onFolderDoubleClick}
+        onItemRightButtonClick={onItemRightButtonClick}
       />
     );
   };
