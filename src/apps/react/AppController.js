@@ -8,6 +8,7 @@ import DirectoryContainer from 'components/DirectoryContainer';
 import BreadCrumbs from 'components/Breadcrumbs';
 import ItemPreview from 'components/ItemPreview';
 import ContextMenu from 'components/ContextMenu';
+import ModalDialog from 'components/ModalDialog';
 import { constructGetterPath } from 'utils/constructGetterPath';
 import { getItemByPath } from 'utils/getItemByPath';
 
@@ -25,6 +26,10 @@ class AppController extends Component {
       display: false,
       position: { x: 0, y: 0 },
     },
+    modal: {
+      display: false,
+      type: null,
+    }
   };
   
   onItemSelect = key => {
@@ -35,6 +40,10 @@ class AppController extends Component {
       selectedItem: newSelectedItem,
       contextMenu: {
         display: false,
+      },
+      modal: {
+        display: true,
+        type: 'rename',
       }
     });
   };
@@ -88,7 +97,15 @@ class AppController extends Component {
         key: 'rename',
         label: `Rename ${selectedItemName}`,
         fn: () => {
-          console.log(this.state);
+          this.setState({
+            contextMenu: {
+              display: false,
+            },
+            modal: {
+              display: true,
+              type: 'rename'
+            }
+          });
         },
       },
       {
@@ -104,11 +121,40 @@ class AppController extends Component {
     ];
   };
   
+  openModalDialog = () => {
+    const { modal: { type }, selectedItem } = this.state;
+    const selectedItemName = selectedItem ? last(selectedItem.split('/')) : '';
+    
+    const closeModalDialog = () => { this.setState({ modal: { display: false }}) };
+    let onSubmit;
+    
+    switch (type) {
+      case 'rename':
+        onSubmit = (value) => {console.log(`transform tree based on ${value}`)};
+        break;
+      case 'add':
+        onSubmit = (value) => {console.log(`add ${value} to tree`)};
+        break;
+      default:
+        return null;
+    }
+  
+    return (
+      <ModalDialog
+        type={type}
+        selectedItemName={selectedItemName}
+        onClose={closeModalDialog}
+        onSubmit={onSubmit}
+      />
+    );
+  };
+  
   
   render() {
-    const { selectedItem, fileTree, contextMenu } = this.state;
+    const { selectedItem, fileTree, contextMenu, modal} = this.state;
     const { root } = this.props;
     const { display: showContextMenu, position } = contextMenu;
+    const { display: showModal } = modal;
     
     /*console.log('========================');
     console.log(constructGetterPath('Folder2/Folder3/File11', fileTree));
@@ -138,6 +184,9 @@ class AppController extends Component {
             items={this.contextMenuItems()}
             selectedItem={selectedItem}
           />
+        )}
+        {showModal && (
+          this.openModalDialog()
         )}
       </Fragment>
     );

@@ -53,8 +53,8 @@ export default class ContextMenu extends Component {
   }
   
   render() {
-    let mainContainer = document.getElementById('app');
+    let app = document.getElementById('app');
     
-    return ReactDOM.createPortal(this.renderMenu(), mainContainer);
+    return ReactDOM.createPortal(this.renderMenu(), app);
   }
 }

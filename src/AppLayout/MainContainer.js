@@ -6,7 +6,7 @@ export default class MainContainer extends Component {
   render() {
     const { children } = this.props;
     return (
-      <div className={styles.mainAppContainer}>
+      <div className={styles.mainAppContainer} id="main-container" >
         { children }
       </div>
     );
