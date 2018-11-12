@@ -11,6 +11,7 @@ import ContextMenu from 'components/ContextMenu';
 import ModalDialog from 'components/ModalDialog';
 import { constructGetterPath } from 'utils/constructGetterPath';
 import { getItemByPath } from 'utils/getItemByPath';
+import { renameItem } from 'utils/renameItem';
 
 import styles from './app.scss';
 
@@ -94,7 +95,7 @@ class AppController extends Component {
   };
   
   contextMenuItems = () => {
-    const { selectedItem, fileTree } = this.state;
+    const { selectedItem } = this.state;
     const selectedItemName = last(selectedItem.split('/'));
     
     return [
@@ -138,7 +139,7 @@ class AppController extends Component {
   };
   
   openModalDialog = () => {
-    const { modal: { type }, selectedItem } = this.state;
+    const { modal: { type }, selectedItem, fileTree } = this.state;
     const selectedItemName = selectedItem ? last(selectedItem.split('/')) : '';
     
     const closeModalDialog = () => { this.setState({ modal: { display: false }}) };
@@ -146,7 +147,15 @@ class AppController extends Component {
     
     switch (type) {
       case 'rename':
-        onSubmit = (value) => {console.log(`transform tree based on ${value}`)};
+        onSubmit = (value) => {
+          this.setState({
+            fileTree: renameItem(fileTree, selectedItem, value),
+            selectedItem: null,
+            modal: {
+              display: true
+            }
+          });
+        };
         break;
       case 'add':
         onSubmit = (value) => {console.log(`add ${value} to tree`)};

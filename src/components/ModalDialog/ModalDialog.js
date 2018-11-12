@@ -35,8 +35,15 @@ export default class ModalDialog extends Component {
     }
   }
   
+  onOkClick = () => {
+    const { inputValue } = this.state;
+    const { onSubmit } = this.props;
+    
+    onSubmit(inputValue);
+  };
+  
   renderModal() {
-    const { onClose, onSubmit } = this.props;
+    const { onClose } = this.props;
     const { inputValue } = this.state;
     
     return (
@@ -51,7 +58,7 @@ export default class ModalDialog extends Component {
           </div>
           <div className={styles.modalFooterButtons}>
             <button type='button' onClick={onClose}>Cancel</button>
-            <button type='button' onClick={onSubmit}>Ok</button>
+            <button type='button' onClick={this.onOkClick}>Ok</button>
           </div>
         </div>
       </div>
