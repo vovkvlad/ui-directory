@@ -28,19 +28,19 @@ export default class MyComponent extends Component {
     onItemRightButtonClick({ position: { x, y } });
   };
   
-  selectItem = (event) => {
+  selectItem = (event, rightClick) => {
     const { onItemSelect } = this.props;
     const { currentTarget } = event;
     let key = currentTarget ? currentTarget.getAttribute('data-key') : null;
     
-    onItemSelect(key);
+    onItemSelect(key, rightClick);
   };
   
   onItemRightButtonClick = (event) => {
     event.stopPropagation();
     event.preventDefault();
     
-    this.selectItem(event);
+    this.selectItem(event, true);
     this.openContextMenu(event);
   };
   

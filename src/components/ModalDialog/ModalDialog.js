@@ -13,6 +13,16 @@ export default class ModalDialog extends Component {
     onSubmit: PropTypes.func,
   };
   
+  state = {
+    inputValue: this.props.selectedItemName,
+  };
+  
+  onInputChange = (event) => {
+    this.setState({
+      inputValue: event.target.value
+    });
+  };
+  
   getHeaderText() {
     const { type, selectedItemName } = this.props;
     switch (type) {
@@ -26,24 +36,22 @@ export default class ModalDialog extends Component {
   }
   
   renderModal() {
+    const { onClose, onSubmit } = this.props;
+    const { inputValue } = this.state;
     
     return (
       <div className={styles.container}>
         <div className={styles.innerContainer}>
           <div className={styles.modalHeader}>
             {this.getHeaderText()}
-            <span className={cx(styles.modalCrossButton, 'fas fa-times')}/>
+            <span className={cx(styles.modalCrossButton, 'fas fa-times')} onClick={onClose}/>
           </div>
           <div className={styles.modalFormBody}>
-            <input type="text"/>
+            <input type="text" value={inputValue} onChange={this.onInputChange} />
           </div>
           <div className={styles.modalFooterButtons}>
-            <button type='button' onClick={() => {
-            }}>Cancel
-            </button>
-            <button type='button' onClick={() => {
-            }}>Ok
-            </button>
+            <button type='button' onClick={onClose}>Cancel</button>
+            <button type='button' onClick={onSubmit}>Ok</button>
           </div>
         </div>
       </div>

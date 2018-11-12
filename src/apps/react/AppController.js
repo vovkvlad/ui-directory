@@ -32,20 +32,25 @@ class AppController extends Component {
     }
   };
   
-  onItemSelect = key => {
+  onItemSelect = (key, rightClick) => {
     const { selectedItem } = this.state;
     
-    const newSelectedItem = selectedItem === key ? null : key;
-    this.setState({
-      selectedItem: newSelectedItem,
-      contextMenu: {
-        display: false,
-      },
-      modal: {
-        display: true,
-        type: 'rename',
+    if (rightClick) {
+      // no need to set state if nothing changed
+      if (selectedItem !== key) {
+        this.setState({
+          selectedItem: key,
+        });
       }
-    });
+    } else {
+      const newSelectedItem = selectedItem === key ? null : key;
+      this.setState({
+        selectedItem: newSelectedItem,
+        contextMenu: {
+          display: false,
+        },
+      });
+    }
   };
   
   onFolderDoubleClick = folderPath => {
@@ -111,12 +116,23 @@ class AppController extends Component {
       {
         key: 'remove',
         label: `Remove ${selectedItemName}`,
-        fn: () => {},
+        fn: () => {
+        },
       },
       {
         key: 'add',
         label: `Add new Item`,
-        fn: () => {},
+        fn: () => {
+          this.setState({
+            contextMenu: {
+              display: false,
+            },
+            modal: {
+              display: true,
+              type: 'rename'
+            }
+          });
+        },
       }
     ];
   };
