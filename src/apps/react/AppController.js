@@ -12,6 +12,7 @@ import ModalDialog from 'components/ModalDialog';
 import { constructGetterPath } from 'utils/constructGetterPath';
 import { getItemByPath } from 'utils/getItemByPath';
 import { renameItem } from 'utils/renameItem';
+import { addFileToTree } from 'utils/addNewItemToTree';
 
 import styles from './app.scss';
 
@@ -130,7 +131,7 @@ class AppController extends Component {
             },
             modal: {
               display: true,
-              type: 'rename'
+              type: 'add'
             }
           });
         },
@@ -142,7 +143,9 @@ class AppController extends Component {
     const { modal: { type }, selectedItem, fileTree } = this.state;
     const selectedItemName = selectedItem ? last(selectedItem.split('/')) : '';
     
-    const closeModalDialog = () => { this.setState({ modal: { display: false }}) };
+    const closeModalDialog = () => {
+      this.setState({ modal: { display: false } })
+    };
     let onSubmit;
     
     switch (type) {
@@ -158,12 +161,22 @@ class AppController extends Component {
         };
         break;
       case 'add':
-        onSubmit = (value) => {console.log(`add ${value} to tree`)};
+        onSubmit = (value) => {
+          const newTree = addFileToTree(fileTree, selectedItem, value);
+          
+          this.setState({
+            fileTree: newTree,
+            selectedItem: null,
+            modal: {
+              display: true
+            }
+          });
+        };
         break;
       default:
         return null;
     }
-  
+    
     return (
       <ModalDialog
         type={type}
@@ -176,7 +189,7 @@ class AppController extends Component {
   
   
   render() {
-    const { selectedItem, fileTree, contextMenu, modal} = this.state;
+    const { selectedItem, fileTree, contextMenu, modal } = this.state;
     const { root } = this.props;
     const { display: showContextMenu, position } = contextMenu;
     const { display: showModal } = modal;

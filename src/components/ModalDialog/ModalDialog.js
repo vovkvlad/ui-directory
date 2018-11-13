@@ -14,7 +14,7 @@ export default class ModalDialog extends Component {
   };
   
   state = {
-    inputValue: this.props.selectedItemName,
+    inputValue: this.props.types === 'rename' ? this.props.selectedItemName : '',
   };
   
   onInputChange = (event) => {
