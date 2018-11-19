@@ -30,6 +30,10 @@ export default class ModalDialog extends Component {
         return <span className={styles.modalHeaderText}>{`Rename ${selectedItemName}`}</span>;
       case 'add':
         return <span className={styles.modalHeaderText}>{`Add New Item`}</span>;
+      case 'add-folder':
+        return <span className={styles.modalHeaderText}>{`Add New Folder`}</span>;
+      case 'remove':
+        return <span className={styles.modalHeaderText}>{`Are you sure you want to remove it?`}</span>;
       default:
         return 'Generic Header';
     }
@@ -43,7 +47,7 @@ export default class ModalDialog extends Component {
   };
   
   renderModal() {
-    const { onClose } = this.props;
+    const { onClose, type } = this.props;
     const { inputValue } = this.state;
     
     return (
@@ -53,9 +57,13 @@ export default class ModalDialog extends Component {
             {this.getHeaderText()}
             <span className={cx(styles.modalCrossButton, 'fas fa-times')} onClick={onClose}/>
           </div>
-          <div className={styles.modalFormBody}>
-            <input type="text" value={inputValue} onChange={this.onInputChange} />
-          </div>
+          {
+            type !== 'remove' && (
+              <div className={styles.modalFormBody}>
+                <input type="text" value={inputValue} onChange={this.onInputChange}/>
+              </div>
+            )
+          }
           <div className={styles.modalFooterButtons}>
             <button type='button' onClick={onClose}>Cancel</button>
             <button type='button' onClick={this.onOkClick}>Ok</button>

@@ -13,6 +13,7 @@ import { constructGetterPath } from 'utils/constructGetterPath';
 import { getItemByPath } from 'utils/getItemByPath';
 import { renameItem } from 'utils/renameItem';
 import { addItemToTree } from 'utils/addNewItemToTree';
+import { removeItemFromTree } from 'utils/removeItem';
 
 import styles from './app.scss';
 
@@ -119,6 +120,15 @@ class AppController extends Component {
         key: 'remove',
         label: `Remove ${selectedItemName}`,
         fn: () => {
+          this.setState({
+            contextMenu: {
+              display: false,
+            },
+            modal: {
+              display: true,
+              type: 'remove'
+            }
+          });
         },
       },
       {
@@ -192,6 +202,19 @@ class AppController extends Component {
         onSubmit = (value) => {
           const newTree = addItemToTree(fileTree, selectedItem, value, true);
     
+          this.setState({
+            fileTree: newTree,
+            selectedItem: null,
+            modal: {
+              display: true
+            }
+          });
+        };
+        break;
+      case 'remove':
+        onSubmit = () => {
+          const newTree = removeItemFromTree(fileTree, selectedItem);
+  
           this.setState({
             fileTree: newTree,
             selectedItem: null,
