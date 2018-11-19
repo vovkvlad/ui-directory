@@ -12,7 +12,7 @@ import ModalDialog from 'components/ModalDialog';
 import { constructGetterPath } from 'utils/constructGetterPath';
 import { getItemByPath } from 'utils/getItemByPath';
 import { renameItem } from 'utils/renameItem';
-import { addFileToTree } from 'utils/addNewItemToTree';
+import { addItemToTree } from 'utils/addNewItemToTree';
 
 import styles from './app.scss';
 
@@ -135,6 +135,21 @@ class AppController extends Component {
             }
           });
         },
+      },
+      {
+        key: 'add-folder',
+        label: `Add new Folder`,
+        fn: () => {
+          this.setState({
+            contextMenu: {
+              display: false,
+            },
+            modal: {
+              display: true,
+              type: 'add-folder'
+            }
+          });
+        },
       }
     ];
   };
@@ -162,8 +177,21 @@ class AppController extends Component {
         break;
       case 'add':
         onSubmit = (value) => {
-          const newTree = addFileToTree(fileTree, selectedItem, value);
+          const newTree = addItemToTree(fileTree, selectedItem, value);
           
+          this.setState({
+            fileTree: newTree,
+            selectedItem: null,
+            modal: {
+              display: true
+            }
+          });
+        };
+        break;
+      case 'add-folder':
+        onSubmit = (value) => {
+          const newTree = addItemToTree(fileTree, selectedItem, value, true);
+    
           this.setState({
             fileTree: newTree,
             selectedItem: null,

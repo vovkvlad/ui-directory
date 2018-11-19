@@ -2,18 +2,33 @@ import { cloneDeep, get, set } from 'lodash';
 
 import { constructGetterPath } from './constructGetterPath';
 
-export const addFileToTree = (fileTree, selectedItem, newItemPath) => {
-  const subDirs = selectedItem.split('/');
-  subDirs.pop();
-  const pathToAddTo = subDirs.join('/');
+export const addItemToTree = (fileTree, selectedItem, newItemName, isFolder) => {
+  let pathToAddTo;
+  
+  if (get(fileTree, `${constructGetterPath(selectedItem, fileTree)}.children`)) { // in case folder selected - add inside it
+    pathToAddTo = selectedItem;
+  } else {
+    const subDirs = selectedItem.split('/');
+    subDirs.pop();
+    pathToAddTo = subDirs.join('/');
+  }
+  
   const getterPath = constructGetterPath(pathToAddTo, fileTree);
   
   const childrenArray = getterPath ? get(fileTree, `${getterPath}.children`) : fileTree;
-  const [name, extension] = newItemPath.split('.');
+  let newItem;
+  if (isFolder) {
+    newItem = { name: newItemName, children: [] };
+  } else {
+    const [ name, extension ] = newItemName.split('.');
+    newItem = { name, extension };
+  }
+  
   const newChildren = [
     ...childrenArray,
-    { name, extension }
+    newItem
   ];
+  
   
   return getterPath ? set(cloneDeep(fileTree), `${getterPath}.children`, newChildren) : newChildren;
 };
