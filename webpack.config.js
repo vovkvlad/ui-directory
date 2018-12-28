@@ -1,5 +1,6 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -88,7 +89,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(PATHS.SRC, 'index.html')
-    })
+    }),
+    new ProgressBarPlugin(),
   ],
   
   devServer: {

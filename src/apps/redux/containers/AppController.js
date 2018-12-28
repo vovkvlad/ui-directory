@@ -1,20 +1,51 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import reduxImage from 'assets/mobx.png';
+import DirectoryTreeContainer from './DirectoryTreeContainer';
+/*
+import ItemPreviewContainer from './ItemPreviewContainer';
+import ContextMenuContainer from './ContextMenuContainer';
+import ModalDialogContainer from './ModalDialogContainer';
+*/
+import BreadCrumbs from 'components/Breadcrumbs';
 
 class AppController extends Component {
   static propTypes = {
     root: PropTypes.string.isRequired,
   };
   
+  onBreadcrumbClick = folderPath => {
+    const { history: { push }, match: { url } } = this.props;
+    
+    push(`${url}${folderPath === '/' ? '' : folderPath}`);
+  };
+  
+  onFolderDoubleClick = folderPath => {
+    const { history: { push }, match: { url } } = this.props;
+    
+    push(`${url}${folderPath}`)
+  };
+  
   render() {
+    const {
+      root,
+    } = this.props;
+    
     return (
-      <div>
-        <img src={reduxImage} height="100" width="100"/>
-        <p>Comming soon</p>
-      </div>
+      <Fragment>
+        <BreadCrumbs
+          path={root}
+          onBreadcrumbClick={this.onBreadcrumbClick}
+        />
+        <DirectoryTreeContainer
+          root={root}
+          onFolderDoubleClick={this.onFolderDoubleClick}
+        />
+        {/*<ItemPreviewContainer />
+        <ContextMenuContainer />
+        <ModalDialogContainer />*/}
+      </Fragment>
     );
   }
 }
