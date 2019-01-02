@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { difference } from 'lodash';
 
-import AppController from './containers/AppController';
+import AppController from './AppController';
 
 export default class AppDecorator extends Component {
   getDirectoryPath = ({ basePath, actualPath }) => {

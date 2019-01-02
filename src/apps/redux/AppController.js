@@ -1,13 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import DirectoryTreeContainer from './DirectoryTreeContainer';
-import ContextMenuContainer from './ContextMenuContainer';
-import ItemPreviewContainer from './ItemPreviewContainer';
-import ModalDialogContainer from './ModalDialogContainer';
+import DirectoryTreeContainer from './containers/DirectoryTreeContainer';
+import ContextMenuContainer from './containers/ContextMenuContainer';
+import ItemPreviewContainer from './containers/ItemPreviewContainer';
+import ModalDialogContainer from './containers/ModalDialogContainer';
 
-import BreadCrumbs from 'components/Breadcrumbs';
+import BreadCrumbs from 'components/Breadcrumbs/index';
 
 class AppController extends Component {
   static propTypes = {
@@ -48,13 +47,4 @@ class AppController extends Component {
     );
   }
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppController);
+export default AppController;
