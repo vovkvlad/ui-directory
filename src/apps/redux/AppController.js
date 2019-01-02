@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 import DirectoryTreeContainer from './containers/DirectoryTreeContainer';
 import ContextMenuContainer from './containers/ContextMenuContainer';
@@ -47,4 +48,4 @@ class AppController extends Component {
     );
   }
 }
-export default AppController;
+export default withRouter(AppController);
