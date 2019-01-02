@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 import DirectoryTreeContainer from './DirectoryTreeContainer';
 import ContextMenuContainer from './ContextMenuContainer';
 import ItemPreviewContainer from './ItemPreviewContainer';
-/*
 import ModalDialogContainer from './ModalDialogContainer';
-*/
+
 import BreadCrumbs from 'components/Breadcrumbs';
 
 class AppController extends Component {
@@ -44,8 +43,7 @@ class AppController extends Component {
         />
         <ItemPreviewContainer />
         <ContextMenuContainer />
-        {/*
-        <ModalDialogContainer />*/}
+        <ModalDialogContainer />
       </Fragment>
     );
   }
