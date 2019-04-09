@@ -3,7 +3,8 @@ import { Route } from 'react-router-dom';
 import { difference } from 'lodash';
 import { observer } from 'mobx-react';
 
-// import AppController from './AppController';
+import AppController from './AppController';
+
 export default class AppDecorator extends Component {
   getDirectoryPath = ({ basePath, actualPath }) => {
     const basePathArray = basePath.split('/');
@@ -18,7 +19,7 @@ export default class AppDecorator extends Component {
         const { location: { pathname }, match: { url } } = routerProps;
         const appRoot = this.getDirectoryPath({ basePath: url, actualPath: pathname });
         
-        return <div>AAAAAAA</div>;
+        return <AppController root={appRoot}/>;
       }}/>
     );
   }
