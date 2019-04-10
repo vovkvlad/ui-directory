@@ -14,7 +14,7 @@ class TreeStore {
   }
   
   @action
-  addNewFile(newItemName) {
+  addNewFile({ value }) {
     let pathToAddTo;
   
     if (get(this.tree, `${constructGetterPath(this.selected, this.tree)}.children`)) { // in case folder selected - add inside it
@@ -28,7 +28,7 @@ class TreeStore {
     const getterPath = constructGetterPath(pathToAddTo, this.tree);
   
     const childrenArray = getterPath ? get(this.tree, `${getterPath}.children`) : this.tree;
-    const [ name, extension ] = newItemName.split('.');
+    const [ name, extension ] = value.split('.');
     let newItem = { name, extension };
   
     childrenArray.push(newItem);
@@ -49,24 +49,26 @@ class TreeStore {
   
     childrenArray = filter(childrenArray, item => item.name !== nameToRemove);
     
+    this.tree = getterPath ? set(this.tree, `${getterPath}.children`, childrenArray) : childrenArray;
+    
     this.selected = null;
   
     // return getterPath ? set(cloneDeep(fileTree), `${getterPath}.children`, newChildrenArray) : newChildrenArray;
   }
   
   @action
-  renameItem(newName){
+  renameItem({ value }){
     const getterPath = constructGetterPath(this.selected, this.tree);
     const namePropPath = `${getterPath}.name`;
   
-    set(this.tree, namePropPath, newName);
+    set(this.tree, namePropPath, value);
   
     this.selected = null;
   
   }
   
   @action
-  addDirectory(newItemName){
+  addDirectory({ value }){
     let pathToAddTo;
   
     if (get(this.tree, `${constructGetterPath(this.selected, this.tree)}.children`)) { // in case folder selected - add inside it
@@ -80,7 +82,7 @@ class TreeStore {
     const getterPath = constructGetterPath(pathToAddTo, this.tree);
   
     const childrenArray = getterPath ? get(this.tree, `${getterPath}.children`) : this.tree;
-    let newItem = { name: newItemName, children: [] };
+    let newItem = { name: value, children: [] };
   
     childrenArray.push(newItem);
   

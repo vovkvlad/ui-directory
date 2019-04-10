@@ -25,7 +25,7 @@ class ModalDialogContainer extends Component {
         break;
       case 'add-folder':
         onSubmit = (value) => {
-          treeStore.addNewDirectory({ value });
+          treeStore.addDirectory({ value });
           modalStore.closeModal();
         };
         break;
