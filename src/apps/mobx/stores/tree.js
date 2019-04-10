@@ -9,7 +9,7 @@ class TreeStore {
   @observable selected = null;
   
   @action
-  selectItem(slected) {
+  selectItem(selected) {
     this.selected = selected;
   }
   
